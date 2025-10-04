@@ -152,7 +152,7 @@ def handle_logout(cookies: CookieController):
 # --- STREAMLIT APP ---
 
 def main():
-    st.set_page_config(page_title="Streamlit Wiki", layout="wide")
+    st.set_page_config(page_title="Mitteleuropa Wiki", layout="wide")
 
     cookies = CookieController(key="wiki_cookie_manager")
     initialize_session(cookies)
@@ -173,7 +173,7 @@ def main():
         del st.query_params["action"]
 
 
-    st.title("📚 Streamlit Wiki")
+    st.title("📚 Mitteleuropa Wiki")
     db_session = next(get_db())
 
     # --- SIDEBAR ---
