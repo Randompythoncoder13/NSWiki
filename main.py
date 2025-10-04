@@ -10,7 +10,7 @@ from streamlit_cookies_controller import CookieController
 
 # --- DATABASE SETUP (SQLAlchemy) ---
 
-DB_URL = st.connection("budget_db", type="sql")
+DB_URL = st.connection("wiki_db", type="sql")
 engine = create_engine(DB_URL, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
