@@ -19,7 +19,7 @@ db_url = (
     f"{db_creds['database']}"
 )
 
-engine = create_engine(db_url, connect_args={"check_same_thread": False})
+engine = create_engine(db_url)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
