@@ -9,9 +9,17 @@ import secrets
 from streamlit_cookies_controller import CookieController
 
 # --- DATABASE SETUP (SQLAlchemy) ---
+db_creds = st.secrets["connections"]["wiki_db"]
 
-DB_URL = "postgresql+pyodbc://postgres:streamlitapp@99.98.180.233/postgres?driver=ODBC+Driver+17+for+SQL+Server" # st.connection("wiki_db", type="sql")
-engine = create_engine(DB_URL, connect_args={"check_same_thread": False})
+# Construct the database URL
+db_url = (
+    f"{db_creds['dialect']}://"
+    f"{db_creds['username']}:{db_creds['password']}@"
+    f"{db_creds['host']}:{db_creds['port']}/"
+    f"{db_creds['database']}"
+)
+
+engine = create_engine(db_url, connect_args={"check_same_thread": False})
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 Base = declarative_base()
 
