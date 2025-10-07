@@ -304,19 +304,31 @@ def draw_edit_page(db, page):
 
 
 def draw_view_page(all_page_titles):
+    """
+    Draws the main page view. This version is corrected to prevent
+    state management bugs that can cause double rendering.
+    """
+
+    # Callback to cleanly set the action and pre-fill the title for creation
+    def go_to_create_page(title_to_create):
+        st.session_state.action = "create"
+        st.session_state.prefill_title = title_to_create
+
     page_title = st.session_state.get('page', 'Mitteleuropa Wiki')
     page = get_page_by_title_cached(page_title)
 
     if not page:
         st.header(f"Welcome to the Wiki!")
         st.write(f"The page '{page_title}' does not exist yet.")
-        st.button(f"Create the '{page_title}' page", on_click=set_action, args=("create",),
-                  kwargs={"title": page_title})
-        # This part is a bit tricky with callbacks, so we handle it manually for pre-filling the title
-        if 'title' in st.session_state and st.session_state.title:
-            st.session_state.prefill_title = st.session_state.title
-            del st.session_state.title
-            st.rerun()
+
+        # OPTIMIZATION: Use a dedicated callback to handle the state change.
+        # This is much cleaner and avoids the bugs caused by using kwargs and
+        # a separate `if` block with st.rerun().
+        st.button(
+            f"Create the '{page_title}' page",
+            on_click=go_to_create_page,
+            args=(page_title,)  # Pass the page_title to the callback
+        )
     else:
         main_col, info_col = st.columns([3, 1])
         with main_col:
