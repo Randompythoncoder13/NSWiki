@@ -1,6 +1,6 @@
 import streamlit as st
 from sqlalchemy import create_engine, Column, Integer, String, Text, Boolean, ForeignKey, DateTime
-from sqlalchemy.orm import sessionmaker, relationship, declarative_base
+from sqlalchemy.orm import relationship, declarative_base, Session
 import hashlib
 import datetime
 import re
@@ -62,7 +62,7 @@ def get_engine():
 def get_db_sessionmaker():
     """Creates a SQLAlchemy sessionmaker and caches it."""
     engine = get_engine()
-    return sessionmaker(autocommit=False, autoflush=False, bind=engine)
+    return Session(autocommit=False, autoflush=False, bind=engine)
 
 
 # --- UTILITY FUNCTIONS ---
