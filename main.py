@@ -101,8 +101,7 @@ def get_page_by_title_cached(title: str):
             # Eagerly load related data to prevent issues with closed sessions
             if page.current_revision:
                 # page.current_revision.content
-                # page.current_revision.author.username
-                pass
+                page.current_revision.author.username
         return page
 
 
